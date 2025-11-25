@@ -1,5 +1,4 @@
-{% assign publication_groups = "Journal,Conferences" | split: "," %}
-
+{% assign publication_groups = "Preprints,Journal,Conferences" | split: "," %}
 {% for group in publication_groups %}
   {% assign categories_in_group = "" %}
   
@@ -7,6 +6,8 @@
     {% assign categories_in_group = "manuscripts" | split: "," %}
   {% elsif group == "Conferences" %}
     {% assign categories_in_group = "conferences" | split: "," %}
+  {% elsif group == "Preprints" %}
+    {% assign categories_in_group = "preprints" | split: "," %}
   {% endif %}
   
   {% assign group_has_posts = false %}
@@ -20,7 +21,6 @@
   
   {% if group_has_posts %}
 ### {{ group }}
-
     {% for post in site.publications %}
       {% if categories_in_group contains post.category %}
         {% include archive-single.html %}
