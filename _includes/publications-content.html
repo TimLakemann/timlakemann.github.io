@@ -1,0 +1,30 @@
+{% assign publication_groups = "Journal,Conferences" | split: "," %}
+
+{% for group in publication_groups %}
+  {% assign categories_in_group = "" %}
+  
+  {% if group == "Journal" %}
+    {% assign categories_in_group = "manuscripts" | split: "," %}
+  {% elsif group == "Conferences" %}
+    {% assign categories_in_group = "conferences" | split: "," %}
+  {% endif %}
+  
+  {% assign group_has_posts = false %}
+  
+  {% for post in site.publications %}
+    {% if categories_in_group contains post.category %}
+      {% assign group_has_posts = true %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+  
+  {% if group_has_posts %}
+### {{ group }}
+
+    {% for post in site.publications %}
+      {% if categories_in_group contains post.category %}
+        {% include archive-single.html %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endfor %}
